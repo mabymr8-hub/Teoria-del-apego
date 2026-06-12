@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Teoría del Apego — Bowlby</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='35' cy='40' r='16' fill='%23c1693c'/%3E%3Ccircle cx='65' cy='62' r='22' fill='%233e5c4f'/%3E%3Cpath d='M35 40 Q50 50 65 62' stroke='%23e8ddc9' stroke-width='4' fill='none'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --cream:#f4efe4;
+    --paper:#fffdf8;
+    --ink:#2e3b35;
+    --terracotta:#c1693c;
+    --sage:#3e5c4f;
+    --gold:#c79b4b;
+    --line:#dcd3bf;
+    --serif: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --sans: 'Avenir Next', 'Segoe UI', sans-serif;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:4rem;
+  }
+
+  header{
+    background:var(--sage);
+    color:var(--cream);
+    padding:3.5rem 1.5rem 2.5rem;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:6px;
+    background:repeating-linear-gradient(45deg, var(--gold) 0 10px, var(--terracotta) 10px 20px);
+  }
+  header h1{
+    font-family:var(--serif);
+    font-size:clamp(2rem, 5vw, 3.2rem);
+    font-weight:600;
+    letter-spacing:0.5px;
+  }
+  header p{
+    margin-top:0.6rem;
+    font-style:italic;
+    opacity:0.85;
+    font-size:1rem;
+  }
+
+  nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:0.6rem;
+    padding:1.2rem 1rem;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  nav button{
+    font-family:var(--sans);
+    font-size:0.85rem;
+    padding:0.5rem 1.1rem;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--sage);
+    cursor:pointer;
+    transition:all 0.2s ease;
+    font-weight:600;
+  }
+  nav button:hover{ border-color:var(--terracotta); color:var(--terracotta); }
+  nav button.active{
+    background:var(--terracotta);
+    color:white;
+    border-color:var(--terracotta);
+  }
+
+  main{
+    max-width:850px;
+    margin:0 auto;
+    padding:2.5rem 1.5rem;
+  }
+
+  section{ display:none; animation: fade 0.4s ease; }
+  section.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  h2{
+    font-family:var(--serif);
+    font-size:1.9rem;
+    color:var(--sage);
+    border-bottom:3px solid var(--gold);
+    display:inline-block;
+    padding-bottom:0.3rem;
+    margin-bottom:1.4rem;
+  }
+  h3{
+    font-family:var(--serif);
+    font-size:1.25rem;
+    color:var(--terracotta);
+    margin:1.6rem 0 0.6rem;
+  }
+  p{ margin-bottom:0.9rem; }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.4rem 1.6rem;
+    margin-bottom:1.2rem;
+    box-shadow:0 2px 6px rgba(0,0,0,0.03);
+  }
+
+  .badge{
+    display:inline-block;
+    font-size:0.7rem;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    background:var(--gold);
+    color:white;
+    padding:0.2rem 0.6rem;
+    border-radius:4px;
+    margin-bottom:0.5rem;
+  }
+
+  /* Phases timeline */
+  .phase{
+    border-left:4px solid var(--terracotta);
+    padding-left:1.2rem;
+    margin-bottom:1.3rem;
+    position:relative;
+  }
+  .phase::before{
+    content:"";
+    position:absolute;
+    left:-9px; top:4px;
+    width:14px; height:14px;
+    border-radius:50%;
+    background:var(--terracotta);
+    border:3px solid var(--cream);
+  }
+  .phase h4{
+    font-family:var(--serif);
+    font-size:1.1rem;
+    color:var(--sage);
+    margin-bottom:0.2rem;
+  }
+  .phase .age{
+    font-size:0.8rem;
+    font-weight:700;
+    color:var(--terracotta);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+
+  /* Attachment style cards */
+  .styles-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:1rem;
+    margin-top:1rem;
+  }
+  .style-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.2rem;
+    border-top:5px solid var(--sage);
+  }
+  .style-card.evitativo{ border-top-color:var(--terracotta); }
+  .style-card.resistente{ border-top-color:var(--gold); }
+  .style-card h4{ font-family:var(--serif); font-size:1.1rem; margin-bottom:0.5rem;}
+  .style-card p{ font-size:0.9rem; margin-bottom:0;}
+
+  /* Glossary */
+  .glossary-search{
+    width:100%;
+    padding:0.7rem 1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-size:1rem;
+    margin-bottom:1.2rem;
+    font-family:var(--sans);
+    background:var(--paper);
+  }
+  .gloss-item{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:1rem 1.3rem;
+    margin-bottom:0.7rem;
+  }
+  .gloss-item dt{
+    font-family:var(--serif);
+    font-weight:700;
+    color:var(--sage);
+    font-size:1.05rem;
+    margin-bottom:0.3rem;
+  }
+  .gloss-item dd{ font-size:0.92rem; }
+  .gloss-item.hidden{ display:none; }
+
+  /* Quiz */
+  .quiz-progress{
+    font-size:0.85rem;
+    color:var(--sage);
+    font-weight:700;
+    margin-bottom:0.8rem;
+  }
+  .quiz-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.6rem;
+  }
+  .quiz-question{
+    font-family:var(--serif);
+    font-size:1.2rem;
+    margin-bottom:1.2rem;
+    color:var(--ink);
+  }
+  .quiz-options{ display:flex; flex-direction:column; gap:0.6rem; }
+  .quiz-option{
+    text-align:left;
+    padding:0.8rem 1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--cream);
+    cursor:pointer;
+    font-family:var(--sans);
+    font-size:0.95rem;
+    transition:all 0.15s ease;
+  }
+  .quiz-option:hover{ border-color:var(--sage); }
+  .quiz-option.correct{ background:#e3efe6; border-color:var(--sage); font-weight:700; }
+  .quiz-option.incorrect{ background:#f7e3dc; border-color:var(--terracotta); }
+  .quiz-feedback{
+    margin-top:1rem;
+    padding:0.8rem 1rem;
+    border-radius:8px;
+    font-size:0.9rem;
+    display:none;
+  }
+  .quiz-feedback.show{ display:block; }
+  .quiz-feedback.correct-fb{ background:#e3efe6; color:var(--sage); }
+  .quiz-feedback.incorrect-fb{ background:#f7e3dc; color:#8a3f1f; }
+  .quiz-nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:1.4rem;
+  }
+  .quiz-nav button{
+    font-family:var(--sans);
+    font-weight:700;
+    padding:0.6rem 1.4rem;
+    border-radius:999px;
+    border:none;
+    background:var(--sage);
+    color:white;
+    cursor:pointer;
+    font-size:0.9rem;
+  }
+  .quiz-nav button:disabled{ opacity:0.4; cursor:not-allowed; }
+  .quiz-score{
+    text-align:center;
+    font-family:var(--serif);
+    font-size:1.4rem;
+    color:var(--sage);
+  }
+  .restart-btn{
+    display:block;
+    margin:1rem auto 0;
+    background:var(--terracotta);
+    color:white;
+    border:none;
+    padding:0.6rem 1.6rem;
+    border-radius:999px;
+    font-weight:700;
+    cursor:pointer;
+    font-family:var(--sans);
+  }
+
+  .quote-box{
+    border-left:4px solid var(--gold);
+    background:#fbf6e8;
+    padding:1rem 1.3rem;
+    font-style:italic;
+    color:#6b5a2e;
+    margin:1rem 0;
+    border-radius:0 8px 8px 0;
+  }
+
+  .timeline-authors{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.8rem;
+    margin-top:1rem;
+  }
+  .author-chip{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:0.4rem 1rem;
+    font-size:0.85rem;
+    font-weight:700;
+    color:var(--sage);
+    border-left:4px solid var(--terracotta);
+  }
+
+  footer{
+    text-align:center;
+    padding:2rem 1rem;
+    font-size:0.8rem;
+    color:#8a8474;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>La Teoría del Apego</h1>
+  <p>John Bowlby — guía interactiva de estudio</p>
+</header>
+
+<nav>
+  <button class="tab-btn active" data-target="intro">Introducción</button>
+  <button class="tab-btn" data-target="fases">Fases del apego</button>
+  <button class="tab-btn" data-target="estilos">Estilos de apego</button>
+  <button class="tab-btn" data-target="conceptos">Conceptos clave</button>
+  <button class="tab-btn" data-target="autores">Autores</button>
+  <button class="tab-btn" data-target="clinica">Clínica</button>
+  <button class="tab-btn" data-target="glosario">Glosario</button>
+  <button class="tab-btn" data-target="trivia">Trivia</button>
+</nav>
+
+<main>
+
+  <!-- INTRO -->
+  <section id="intro" class="active">
+    <h2>¿Qué es el apego?</h2>
+    <div class="card">
+      <span class="badge">Definición central</span>
+      <p>El <strong>comportamiento de apego</strong> es toda conducta por la cual un individuo mantiene o busca proximidad con otra persona considerada más fuerte. El cuidador principal funciona como una <strong>base segura</strong> desde la cual explorar el mundo, y como <strong>refugio</strong> en momentos de alarma.</p>
+      <p>La amenaza de pérdida genera ansiedad; la pérdida real genera pena, tristeza, rabia e ira. Mantener los vínculos de apego es lo que permite tolerar esos sentimientos.</p>
+    </div>
+
+    <h3>Origen del concepto</h3>
+    <div class="card">
+      <p>Bowlby sostenía que existe una <strong>necesidad humana universal</strong> de formar vínculos afectivos estrechos. Llegó a esta conclusión observando perturbaciones emocionales en niños separados de sus familias.</p>
+      <p>Tomó aportes de múltiples disciplinas: la <strong>etología</strong> (los trabajos de Lorenz sobre patos y gansos, 1951) le mostró que el apego aparece en crías de casi todos los mamíferos, con valor de supervivencia (protección frente a depredadores).</p>
+      <p>Entre <strong>1969 y 1980</strong> desarrolló su teoría del apego y la pérdida.</p>
+    </div>
+
+    <h3>La idea central</h3>
+    <div class="quote-box">
+      Existe una relación causal entre las experiencias del individuo con sus figuras significativas (generalmente los padres) y su posterior capacidad para establecer vínculos afectivos.
+    </div>
+    <div class="card">
+      <p>Dos conceptos resultan claves: la <strong>ansiedad de separación</strong> y la disposición humana básica frente a la amenaza de pérdida.</p>
+    </div>
+  </section>
+
+  <!-- FASES -->
+  <section id="fases">
+    <h2>Las cuatro fases del apego</h2>
+
+    <div class="phase">
+      <span class="age">0 – 6 semanas</span>
+      <h4>1. Fase de preapego</h4>
+      <p>Conductas reflejas determinadas genéticamente (sonrisa, llanto, mirada) que atraen la atención de otros. Aparece un reconocimiento sensorial muy rudimentario de la madre (prefiere su voz), pero <strong>todavía no hay un vínculo de apego propiamente dicho</strong>.</p>
+    </div>
+
+    <div class="phase">
+      <span class="age">6 semanas – 6 meses</span>
+      <h4>2. Fase de formación del apego</h4>
+      <p>El niño orienta su conducta hacia la madre de forma más clara: sonríe, balbucea y la sigue con la mirada más que a otras personas. Aún <strong>no muestra ansiedad de separación</strong>; lo que le molesta es perder el contacto humano en general, no la madre específicamente.</p>
+    </div>
+
+    <div class="phase">
+      <span class="age">6-8 meses – 18-24 meses</span>
+      <h4>3. Fase de apego propiamente dicho</h4>
+      <p>El vínculo con la madre es claro y evidente: aparece <strong>gran ansiedad y enfado ante la separación</strong>. Desde los 8 meses puede rechazar el contacto con otros familiares cercanos. Conductas como gatear apuntan a atraer y mantener la presencia materna.</p>
+    </div>
+
+    <div class="phase">
+      <span class="age">Desde los 18-24 meses</span>
+      <h4>4. Formación de relaciones reciprocas</h4>
+      <p>Aparece el <strong>lenguaje</strong> y la capacidad de representarse mentalmente a la madre, lo que permite predecir su retorno → disminuye la ansiedad. Explicar el motivo y duración de la ausencia reduce el llanto. Desde los 3 años, el niño negocia activamente las idas y venidas del cuidador.</p>
+    </div>
+
+    <div class="card">
+      <p><strong>Al final de las 4 fases:</strong> el vínculo es sólido y ya no requiere contacto físico constante, porque el niño confía en que la madre responderá cuando la necesite.</p>
+    </div>
+  </section>
+
+  <!-- ESTILOS -->
+  <section id="estilos">
+    <h2>Patrones de apego (Mary Ainsworth — "Situación Extraña")</h2>
+    <div class="card">
+      <p>Ainsworth (1978) diseñó el procedimiento de la <strong>Situación Extraña</strong>, basado en sus observaciones en Kampala (Uganda) y Baltimore (EE.UU.), donde se observan las reacciones del infante ante separaciones breves y reencuentros con su cuidador.</p>
+    </div>
+
+    <div class="styles-grid">
+      <div class="style-card">
+        <h4>🟢 Seguro</h4>
+        <p>Ansiedad ante la separación, pero <strong>reaseguramiento</strong> al reencontrarse con la madre. Modelo interno de confianza en el cuidador. Relacionado con la sensibilidad materna a las señales del bebé.</p>
+      </div>
+      <div class="style-card evitativo">
+        <h4>🟠 Ansioso/Evitativo</h4>
+        <p>Poca ansiedad durante la separación y <strong>desinterés</strong> en el reencuentro. Refleja desconfianza en la disponibilidad del cuidador. Relacionado con rechazo materno.</p>
+      </div>
+      <div class="style-card resistente">
+        <h4>🟡 Ansioso/Resistente (ambivalente)</h4>
+        <p>Ansiedad de separación, pero <strong>no se calma</strong> al reencontrarse. Limitada exploración y juego, dificultad para reponerse. Relacionado con la falta de predictibilidad materna.</p>
+      </div>
+    </div>
+
+    <h3>Estabilidad a lo largo de la vida</h3>
+    <div class="card">
+      <p>Para Bowlby, los patrones de apego se mantienen en el tiempo: los <strong>Modelos de Funcionamiento Interno</strong> (del self y de los otros) sirven como prototipos para todas las relaciones posteriores, siendo relativamente estables a lo largo del ciclo vital.</p>
+    </div>
+
+    <h3>Apego en el adulto (Mary Main, 1985)</h3>
+    <div class="card">
+      <p>A través de la <strong>Entrevista de Apego del Adulto (AAI)</strong>, Main describió tres tipos:</p>
+      <p>• <strong>Seguro/autónomo</strong>: integra coherentemente sus recuerdos en una narración con sentido.<br>
+      • <strong>Inseguro/desentendido (despreocupado)</strong>: tiende a negar recuerdos, idealizándolos o minimizándolos.<br>
+      • <strong>Inseguro/preocupado</strong>: dificultad para integrar memorias con su significado.</p>
+      <p>La clasificación se basa más en la <em>calidad</em> del relato que en su contenido específico. La narrativa de la madre sobre su propio apego se asocia fuertemente con la clasificación de apego de su hijo.</p>
+    </div>
+  </section>
+
+  <!-- CONCEPTOS -->
+  <section id="conceptos">
+    <h2>Conceptos clave de la teoría</h2>
+
+    <h3>Modelos de Funcionamiento Interno (Bowlby, 1973)</h3>
+    <div class="card">
+      <p>Representaciones mentales que el individuo construye a partir de sus experiencias pasadas con la madre (u otras figuras significativas). Funcionan como "mapas" para anticipar relaciones futuras.</p>
+    </div>
+
+    <h3>Sistema conductual / sistema de control</h3>
+    <div class="card">
+      <p>El apego se organiza como un <strong>sistema de control homeostático</strong>, análogo a los sistemas fisiológicos (como la regulación de la presión sanguínea). Su función es mantener el <strong>equilibrio cercanía-distancia</strong> respecto a la figura de apego, regulando la experiencia emocional.</p>
+    </div>
+
+    <h3>Sistema regulador diádico</h3>
+    <div class="card">
+      <p>El ser humano <strong>no nace</strong> con la capacidad de regular sus emociones. La necesita desarrollar a través de un sistema diádico: las señales del niño deben ser <strong>entendidas y respondidas</strong> por sus figuras significativas.</p>
+    </div>
+
+    <h3>Mentalización y función reflexiva (Fonagy)</h3>
+    <div class="card">
+      <p>La <strong>mentalización</strong> es la capacidad de representar mentalmente los estados mentales propios y ajenos (self y otro). Está fuertemente correlacionada con el apego seguro: se necesita una figura parental que pueda "pensar" sobre la experiencia mental del niño.</p>
+      <p>Para Fonagy (1998), esta <strong>función reflexiva</strong> es un logro intrapsíquico e interpersonal que surge de una relación de apego seguro. Permite al niño dar sentido a sus propios sentimientos y a los de los demás. Los fallos maternos en contener la experiencia afectiva generan fallas de regulación e integración en el self del niño.</p>
+    </div>
+
+    <h3>Apego seguro vs. dependencia</h3>
+    <div class="card">
+      <p>Bowlby sustituyó el concepto de "dependencia" (de connotación negativa, ligado al objeto) por los de <strong>apego, confianza y autoconfianza</strong>. La tendencia a vincularse es <strong>primaria</strong>, no derivada de la satisfacción de necesidades orales.</p>
+    </div>
+
+    <h3>Base segura + exploración</h3>
+    <div class="card">
+      <p>Un buen apego incluye dos aspectos: la <strong>base segura</strong> (figura confiable disponible) y la <strong>exploración</strong> (capacidad de animar al niño a explorar el mundo a partir de ella). La principal variable es la capacidad parental de ofrecer ambas cosas.</p>
+    </div>
+  </section>
+
+  <!-- AUTORES -->
+  <section id="autores">
+    <h2>Apego y psicoanálisis: diálogo de autores</h2>
+
+    <div class="card">
+      <p>Bowlby buscó desarrollar una <strong>variante de la teoría de las relaciones objetales</strong>. Fue criticado por discípulos de Melanie Klein y Anna Freud, quienes consideraban su teoría "no dinámica" y "reduccionista" por privilegiar lo evolutivo sobre lo simbólico.</p>
+    </div>
+
+    <h3>Diferencias clave con el psicoanálisis tradicional</h3>
+    <div class="card">
+      <p>• No usa etapas psicosexuales ni el concepto de fijación.<br>
+      • Usa términos de las ciencias biológicas: <strong>sistema de control</strong>, <strong>vía evolutiva</strong>.<br>
+      • Incorpora la teoría de la mente (psicología cognitiva) para dar precisión a procesos internos.<br>
+      • Metodología basada en <strong>observación directa</strong> de niños, no en reconstrucción retrospectiva con pacientes — lo que llevó a algunos a emparentarlo con el conductismo (algo que Bowlby rechazaba, dado su uso de modelos representacionales).</p>
+    </div>
+
+    <h3>Conceptos análogos en otros autores</h3>
+    <div class="timeline-authors">
+      <span class="author-chip">Winnicott — Medio ambiente facilitador / Madre suficientemente buena</span>
+      <span class="author-chip">Fairbairn — Dependencia madura</span>
+      <span class="author-chip">Klein — Introyección de objeto bueno</span>
+      <span class="author-chip">Erikson — Confianza básica</span>
+      <span class="author-chip">Bion — Función materna</span>
+    </div>
+
+    <h3>Otros aportes relevantes</h3>
+    <div class="card">
+      <p><strong>R. Spitz (1965):</strong> estudió las consecuencias de la deprivación materna en el primer año de vida (depresión anaclítica y marasmo), basado en observación directa de infantes.</p>
+      <p><strong>Imre Hermann</strong> (discípulo de Ferenczi, años 40): conceptos de <em>instinto de aferramiento</em> y <em>unidad dual</em>, sobre la estructuración psíquica en la relación madre-hijo.</p>
+      <p><strong>Stern (1990):</strong> enfatizó el apego como modo de ver la experiencia subjetiva del infante, destacando el sentido subjetivo del sí mismo como principio organizador del desarrollo.</p>
+      <p><strong>Mary Main (1985):</strong> correlacionó la conducta en la Situación Extraña con el discurso de los padres; estableció que la mentalización surge de un proceso intersubjetivo entre infante y figuras significativas.</p>
+    </div>
+  </section>
+
+  <!-- CLINICA -->
+  <section id="clinica">
+    <h2>La clínica desde la teoría del apego</h2>
+
+    <div class="card">
+      <p>El objetivo clínico es que el paciente revise sus experiencias de apego: detectar su <strong>patrón típico</strong>, cómo se relaciona en general y con el terapeuta, y examinar sucesos significativos (separaciones, encuentros, duelos).</p>
+    </div>
+
+    <h3>Funciones del analista (según Bowlby)</h3>
+    <div class="card">
+      <p>1. Proporcionar una <strong>base segura</strong> desde la cual el paciente pueda explorarse a sí mismo y sus relaciones — establecer un vínculo confiable.<br><br>
+      2. Realizar junto al paciente exploraciones sobre sus relaciones interpersonales.<br><br>
+      3. Señalar cómo el paciente "construye" sus sentimientos, expectativas, predicciones y consecuencias en los vínculos.<br><br>
+      4. Relacionar sus modos de vincularse (incluso con el terapeuta) con experiencias reales con figuras de apego pasadas, iluminando sus relaciones actuales.<br><br>
+      <em>En la práctica, todas estas funciones se realizan simultáneamente.</em></p>
+    </div>
+
+    <h3>El vínculo terapéutico</h3>
+    <div class="card">
+      <p>El vínculo terapeuta-paciente, en tanto <strong>confiable</strong>, es central. La actitud empática del terapeuta puede modificar los <strong>Modelos de Funcionamiento Interno</strong>. El objetivo es revisar los modelos representacionales del sí mismo y de las figuras de apego que rigen percepciones, predicciones y actos actuales.</p>
+      <p>Esto es concordante con los objetivos psicoanalíticos: analizar los patrones de apego está ligado al análisis de la <strong>transferencia</strong>, ya que los modelos de apego se reflejan en ella.</p>
+    </div>
+  </section>
+
+  <!-- GLOSARIO -->
+  <section id="glosario">
+    <h2>Glosario</h2>
+    <input type="text" class="glossary-search" id="glossarySearch" placeholder="Buscar término...">
+    <dl id="glossaryList">
+      <div class="gloss-item"><dt>Apego</dt><dd>Conducta por la cual un individuo mantiene o busca proximidad con otra persona considerada más fuerte; incluye usar al cuidador como base segura y refugio.</dd></div>
+      <div class="gloss-item"><dt>Base segura</dt><dd>Figura (generalmente el cuidador principal) desde la cual el niño explora el mundo y a la cual retorna en momentos de alarma.</dd></div>
+      <div class="gloss-item"><dt>Ansiedad de separación</dt><dd>Malestar que surge ante la amenaza o realidad de la separación de la figura de apego.</dd></div>
+      <div class="gloss-item"><dt>Modelos de Funcionamiento Interno (Internal Working Models)</dt><dd>Concepto de Bowlby (1973): representaciones mentales de las experiencias pasadas con las figuras de apego, que sirven como prototipo para relaciones futuras.</dd></div>
+      <div class="gloss-item"><dt>Sistema conductual / sistema de control</dt><dd>Organización homeostática que regula la conducta de apego, manteniendo el equilibrio cercanía-distancia respecto a la figura de apego, análoga a sistemas fisiológicos de control.</dd></div>
+      <div class="gloss-item"><dt>Sistema regulador diádico</dt><dd>Mecanismo por el cual el niño aprende a regular sus emociones gracias a que sus señales son entendidas y respondidas por sus figuras significativas.</dd></div>
+      <div class="gloss-item"><dt>Situación Extraña</dt><dd>Procedimiento de laboratorio diseñado por Mary Ainsworth (1978) para observar las respuestas del infante ante separaciones breves y reencuentros con sus padres.</dd></div>
+      <div class="gloss-item"><dt>Apego seguro</dt><dd>Patrón caracterizado por ansiedad ante la separación y reaseguramiento al reencontrarse con la madre; refleja confianza en el cuidador.</dd></div>
+      <div class="gloss-item"><dt>Apego ansioso/evitativo</dt><dd>Patrón con poca ansiedad ante la separación y desinterés en el reencuentro; asociado a desconfianza en la disponibilidad del cuidador y rechazo materno.</dd></div>
+      <div class="gloss-item"><dt>Apego ansioso/resistente (ambivalente)</dt><dd>Patrón con ansiedad de separación que no se calma al reencontrarse con la madre; asociado a falta de predictibilidad materna.</dd></div>
+      <div class="gloss-item"><dt>Entrevista de Apego del Adulto (AAI)</dt><dd>Instrumento elaborado por Mary Main para clasificar el estado mental de un adulto respecto a sus vínculos de apego.</dd></div>
+      <div class="gloss-item"><dt>Apego seguro/autónomo (adulto)</dt><dd>Clasificación de Main: la persona integra coherentemente sus recuerdos en una narración con sentido.</dd></div>
+      <div class="gloss-item"><dt>Apego inseguro/desentendido (despreocupado)</dt><dd>Clasificación de Main: tendencia a negar recuerdos, idealizándolos o minimizándolos.</dd></div>
+      <div class="gloss-item"><dt>Apego inseguro/preocupado</dt><dd>Clasificación de Main: dificultad para integrar las memorias de experiencias con su significado.</dd></div>
+      <div class="gloss-item"><dt>Mentalización</dt><dd>Capacidad (Fonagy) para la representación mental del funcionamiento psicológico del self y del otro, en términos de estados mentales.</dd></div>
+      <div class="gloss-item"><dt>Función reflexiva</dt><dd>Logro intrapsíquico e interpersonal (Fonagy, 1998) que surge en el contexto de un apego seguro, y permite dar sentido a los propios sentimientos y a los del otro.</dd></div>
+      <div class="gloss-item"><dt>Depresión anaclítica / Marasmo</dt><dd>Conceptos de R. Spitz (1965) sobre las consecuencias de la deprivación materna en el primer año de vida.</dd></div>
+      <div class="gloss-item"><dt>Instinto de aferramiento / Unidad dual</dt><dd>Conceptos de Imre Hermann (años 40) sobre la relación madre-hijo y su papel en la estructuración psíquica temprana.</dd></div>
+      <div class="gloss-item"><dt>Transferencia</dt><dd>En clínica, los modos de vincularse del paciente (incluyendo sus modelos de apego) se reflejan en la relación con el terapeuta.</dd></div>
+      <div class="gloss-item"><dt>Vía evolutiva</dt><dd>Término biológico utilizado por Bowlby para describir el desarrollo, en lugar de los conceptos psicoanalíticos de etapas y fijación.</dd></div>
+    </dl>
+  </section>
+
+  <!-- TRIVIA -->
+  <section id="trivia">
+    <h2>Trivia: ¿Cuánto sabés sobre Bowlby?</h2>
+    <div class="quiz-progress" id="quizProgress">Pregunta 1 de 10</div>
+    <div class="quiz-card">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <span id="quizScoreLive" style="font-weight:700; color:var(--sage);"></span>
+        <button id="nextBtn" disabled>Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Guía interactiva basada en "La Teoría del Apego" de J. Bowlby — material de estudio.
+</footer>
+
+<script>
+  // Tab navigation
+  const tabs = document.querySelectorAll('.tab-btn');
+  const sections = document.querySelectorAll('main > section');
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  // Glossary search
+  const searchInput = document.getElementById('glossarySearch');
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase();
+    document.querySelectorAll('.gloss-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.classList.toggle('hidden', !text.includes(q));
+    });
+  });
+
+  // Quiz
+  const questions = [
+    {
+      q: "Según Bowlby, ¿qué función cumple la figura de apego para el niño?",
+      options: ["Solo le provee alimento", "Funciona como base segura para explorar y refugio en momentos de alarma", "Es indiferente para el desarrollo emocional", "Solo importa en la adolescencia"],
+      correct: 1,
+      fb: "El cuidador principal es usado como base segura para explorar y como refugio ante la alarma."
+    },
+    {
+      q: "¿Qué autor influyó en Bowlby a partir de sus estudios sobre patos y gansos (1951)?",
+      options: ["Mary Ainsworth", "Konrad Lorenz", "Mary Main", "René Spitz"],
+      correct: 1,
+      fb: "El contacto con los trabajos de Lorenz sobre conducta instintiva fue clave para Bowlby."
+    },
+    {
+      q: "En la Fase de preapego (0-6 semanas), ¿qué es cierto?",
+      options: ["Ya existe ansiedad de separación", "El bebé reconoce perfectamente a su madre y se angustia al separarse", "Aparece un reconocimiento sensorial muy rudimentario hacia la madre, pero sin apego propiamente dicho", "El niño rechaza el contacto físico"],
+      correct: 2,
+      fb: "En esta fase hay un reconocimiento sensorial rudimentario (prefiere la voz materna) pero todavía no hay un vínculo de apego propiamente dicho."
+    },
+    {
+      q: "¿Entre qué edades se ubica la 'Fase de apego propiamente dicha'?",
+      options: ["0-6 semanas", "6 semanas - 6 meses", "6-8 meses a 18-24 meses", "Desde los 3 años"],
+      correct: 2,
+      fb: "Es el período de mayor ansiedad y enfado ante la separación, entre los 6-8 meses y los 18-24 meses."
+    },
+    {
+      q: "¿Qué procedimiento diseñó Mary Ainsworth para estudiar el apego infantil?",
+      options: ["La Entrevista de Apego del Adulto", "La Situación Extraña", "El Test de Rorschach", "La técnica del espejo"],
+      correct: 1,
+      fb: "Ainsworth diseñó la Situación Extraña, observando reacciones ante separaciones breves y reencuentros."
+    },
+    {
+      q: "Un niño con apego ansioso/evitativo, durante el reencuentro con su madre, suele mostrar...",
+      options: ["Gran alivio y búsqueda de contacto", "Desinterés y poca ansiedad", "Rabia intensa que no se calma", "Llanto incontrolable que cesa al instante"],
+      correct: 1,
+      fb: "El apego ansioso/evitativo se relaciona con desinterés en el reencuentro y desconfianza en la disponibilidad del cuidador."
+    },
+    {
+      q: "¿Cómo llamó Bowlby (1973) a las representaciones mentales basadas en experiencias pasadas con la madre?",
+      options: ["Objetos transicionales", "Modelos de Funcionamiento Interno", "Esquemas cognitivos", "Mecanismos de defensa"],
+      correct: 1,
+      fb: "Bowlby denominó a estas representaciones 'Modelos de Funcionamiento Interno' (internal working models)."
+    },
+    {
+      q: "¿Qué autor desarrolló el concepto de 'función reflexiva' o mentalización?",
+      options: ["Donald Winnicott", "Peter Fonagy", "Melanie Klein", "Imre Hermann"],
+      correct: 1,
+      fb: "Peter Fonagy centró sus investigaciones en la relación entre apego seguro y función reflexiva/mentalización."
+    },
+    {
+      q: "¿Qué concepto de Winnicott se relaciona con la teoría del apego?",
+      options: ["Confianza básica", "Dependencia madura", "Medio ambiente facilitador / madre suficientemente buena", "Introyección de objeto bueno"],
+      correct: 2,
+      fb: "Winnicott aportó conceptos como medio ambiente facilitador y madre suficientemente buena."
+    },
+    {
+      q: "Según Bowlby, ¿cuál es una de las principales funciones del analista en la clínica del apego?",
+      options: ["Reforzar la dependencia del paciente hacia el terapeuta", "Proporcionar una base segura desde la cual el paciente pueda explorarse a sí mismo", "Evitar hablar sobre separaciones y duelos", "Centrarse exclusivamente en etapas psicosexuales"],
+      correct: 1,
+      fb: "Una función central del analista es ofrecer una base segura -un vínculo confiable- desde la cual el paciente pueda explorarse."
+    }
+  ];
+
+  let current = 0;
+  let score = 0;
+  let answered = false;
+
+  const qEl = document.getElementById('quizQuestion');
+  const optsEl = document.getElementById('quizOptions');
+  const fbEl = document.getElementById('quizFeedback');
+  const nextBtn = document.getElementById('nextBtn');
+  const progEl = document.getElementById('quizProgress');
+  const scoreLive = document.getElementById('quizScoreLive');
+
+  function renderQuestion(){
+    answered = false;
+    fbEl.className = 'quiz-feedback';
+    fbEl.textContent = '';
+    nextBtn.disabled = true;
+    optsEl.innerHTML = '';
+
+    if(current >= questions.length){
+      progEl.textContent = '¡Completado!';
+      qEl.innerHTML = '';
+      scoreLive.textContent = '';
+      optsEl.innerHTML = `<div class="quiz-score">Puntaje final: ${score} / ${questions.length}</div>`;
+      const restart = document.createElement('button');
+      restart.className = 'restart-btn';
+      restart.textContent = 'Reintentar trivia';
+      restart.addEventListener('click', () => {
+        current = 0; score = 0; renderQuestion();
+      });
+      optsEl.appendChild(restart);
+      nextBtn.style.display = 'none';
+      return;
+    }
+
+    nextBtn.style.display = 'inline-block';
+    nextBtn.textContent = (current === questions.length - 1) ? 'Ver resultado' : 'Siguiente →';
+    progEl.textContent = `Pregunta ${current+1} de ${questions.length}`;
+    scoreLive.textContent = `Aciertos: ${score}`;
+
+    const item = questions[current];
+    qEl.textContent = item.q;
+
+    item.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => {
+        if(answered) return;
+        answered = true;
+        const allBtns = optsEl.querySelectorAll('.quiz-option');
+        allBtns.forEach((b,i) => {
+          if(i === item.correct) b.classList.add('correct');
+          else if(i === idx) b.classList.add('incorrect');
+        });
+        fbEl.classList.add('show');
+        if(idx === item.correct){
+          score++;
+          fbEl.classList.add('correct-fb');
+          fbEl.textContent = '✓ ¡Correcto! ' + item.fb;
+        } else {
+          fbEl.classList.add('incorrect-fb');
+          fbEl.textContent = '✗ Incorrecto. ' + item.fb;
+        }
+        scoreLive.textContent = `Aciertos: ${score}`;
+        nextBtn.disabled = false;
+      });
+      optsEl.appendChild(btn);
+    });
+  }
+
+  nextBtn.addEventListener('click', () => {
+    current++;
+    renderQuestion();
+  });
+
+  renderQuestion();
+</script>
+
+</body>
+</html>
