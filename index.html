@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>La Teoría del Apego — Bowlby</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='35' cy='40' r='16' fill='%23c1693c'/%3E%3Ccircle cx='65' cy='62' r='22' fill='%233e5c4f'/%3E%3Cpath d='M35 40 Q50 50 65 62' stroke='%23e8ddc9' stroke-width='4' fill='none'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <style>
   :root{
     --cream:#f4efe4;
@@ -326,6 +329,60 @@
     padding:2rem 1rem;
     font-size:0.8rem;
     color:#8a8474;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 640px){
+    header{ padding:2.4rem 1rem 2rem; }
+    header h1{ font-size:1.7rem; }
+    header p{ font-size:0.9rem; }
+
+    nav{
+      gap:0.4rem;
+      padding:0.8rem 0.6rem;
+      overflow-x:auto;
+      flex-wrap:nowrap;
+      justify-content:flex-start;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    nav::-webkit-scrollbar{ display:none; }
+    nav button{
+      font-size:0.78rem;
+      padding:0.45rem 0.9rem;
+      flex:0 0 auto;
+      white-space:nowrap;
+    }
+
+    main{ padding:1.5rem 1rem; }
+
+    h2{ font-size:1.5rem; margin-bottom:1rem; }
+    h3{ font-size:1.1rem; }
+
+    .card{ padding:1.1rem 1.1rem; }
+
+    .styles-grid{ grid-template-columns:1fr; }
+
+    .quiz-card{ padding:1.1rem; }
+    .quiz-question{ font-size:1.05rem; }
+    .quiz-option{ font-size:0.9rem; padding:0.7rem 0.9rem; }
+
+    .quiz-nav{
+      flex-direction:column;
+      gap:0.8rem;
+      align-items:stretch;
+    }
+    .quiz-nav button{ width:100%; }
+    #quizScoreLive{ text-align:center; }
+
+    .phase{ padding-left:1rem; }
+    .timeline-authors{ gap:0.5rem; }
+    .author-chip{ font-size:0.78rem; padding:0.35rem 0.8rem; }
+  }
+
+  @media (max-width: 400px){
+    header h1{ font-size:1.45rem; }
+    nav button{ font-size:0.72rem; padding:0.4rem 0.75rem; }
   }
 </style>
 </head>
